@@ -20,4 +20,5 @@ func reroll_cost(reroll_count: int) -> int:
 static func starter_pool() -> ShopPoolDefinition:
 	var pool := ShopPoolDefinition.new()
 	pool.weighted_items.assign(StarterModifierLibrary.build())
+	pool.weighted_items.append_array(StarterConsumableLibrary.build())
 	return pool

@@ -9,6 +9,8 @@ signal run_failed(state: RunState)
 var state := RunState.new()
 var deck := DeckManager.new()
 var modifiers: Array[ModifierDefinition] = []
+var hand_levels := HandLevels.new()
+var consumables: Array[ConsumableDefinition] = []
 var blinds: Array[BlindDefinition] = BlindDefinition.default_blinds()
 var shop_pool := ShopPoolDefinition.starter_pool()
 
@@ -48,7 +50,19 @@ func buy_shop_item(item: Resource) -> bool:
 		state.money -= item.price
 		add_modifier(item)
 		return true
+	if item is ConsumableDefinition and state.money >= item.price:
+		state.money -= item.price
+		consumables.append(item)
+		return true
 	return false
+
+func use_consumable(item: ConsumableDefinition, selected_cards: Array[CardInstance] = []) -> bool:
+	if not consumables.has(item):
+		return false
+	if not item.apply(deck, hand_levels, selected_cards):
+		return false
+	consumables.erase(item)
+	return true
 
 func reroll_shop() -> Array[Resource]:
 	var cost := shop_pool.reroll_cost(state.reroll_count)
@@ -70,13 +84,18 @@ func advance_blind() -> void:
 	_start_current_blind()
 
 func save_run() -> void:
-	SaveService.save_run(state.to_save_data())
+	var data := state.to_save_data()
+	data["deck"] = deck.to_save_data()
+	data["hand_levels"] = hand_levels.to_save_data()
+	SaveService.save_run(data)
 
 func load_run() -> bool:
 	var data := SaveService.load_run()
 	if data.is_empty():
 		return false
 	state.load_save_data(data)
+	deck.load_save_data(data.get("deck", {}))
+	hand_levels.load_save_data(data.get("hand_levels", {}))
 	RunRng.set_run_seed(state.seed_value)
 	_start_current_blind()
 	return true
