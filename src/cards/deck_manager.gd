@@ -42,12 +42,14 @@ func draw_cards(count: int) -> Array[CardInstance]:
 
 func play_cards(cards: Array[CardInstance]) -> void:
 	for card in cards:
-		if hand.erase(card):
+		if hand.has(card):
+			hand.erase(card)
 			played_pile.append(card)
 
 func discard_cards(cards: Array[CardInstance]) -> void:
 	for card in cards:
-		if hand.erase(card):
+		if hand.has(card):
+			hand.erase(card)
 			discard_pile.append(card)
 
 func cleanup_played_cards() -> void:

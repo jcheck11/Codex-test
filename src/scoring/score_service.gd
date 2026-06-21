@@ -12,7 +12,7 @@ static func score(cards: Array[CardInstance], modifiers: Array = []) -> Dictiona
 		events.append({"source": card.display_name(), "chips": card.chip_value, "mult": 0})
 	for modifier in modifiers:
 		if modifier.has_method("apply_score"):
-			var result: Dictionary = modifier.apply_score(cards, chips, mult)
+			var result: Dictionary = modifier.apply_score(cards, hand_name, chips, mult)
 			chips = result.get("chips", chips)
 			mult = result.get("mult", mult)
 			events.append(result)
