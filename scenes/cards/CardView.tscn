@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://card_view"]
+
+[ext_resource type="Script" path="res://src/cards/card_view.gd" id="1_card"]
+
+[node name="CardView" type="Button"]
+custom_minimum_size = Vector2(96, 136)
+toggle_mode = true
+script = ExtResource("1_card")
