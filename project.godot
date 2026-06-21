@@ -1,0 +1,16 @@
+; Engine configuration file.
+; Best edited with the Godot editor.
+
+config_version=5
+
+[application]
+config/name="Codex Deckbuilder"
+run/main_scene="res://scenes/Main.tscn"
+config/features=PackedStringArray("4.2")
+config/icon="res://icon.svg"
+
+[autoload]
+GameConfig="*res://src/autoloads/game_config.gd"
+RunRng="*res://src/autoloads/run_rng.gd"
+SaveService="*res://src/autoloads/save_service.gd"
+AudioBus="*res://src/autoloads/audio_bus.gd"

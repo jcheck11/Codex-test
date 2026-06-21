@@ -1,0 +1,7 @@
+.pytest_cache/
+__pycache__/
+*.py[cod]
+.godot/
+.import/
+export.cfg
+export_presets.cfg
